@@ -1,10 +1,8 @@
 package forex.interfaces.api.rates
 
-import java.time.OffsetDateTime
-
 import forex.domain._
-import io.circe._
-import io.circe.generic.semiauto._
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 
 object Protocol {
 
@@ -21,6 +19,7 @@ object Protocol {
   )
 
   object GetApiResponse {
+    implicit val decoder: Decoder[GetApiResponse] = deriveDecoder[GetApiResponse]
     implicit val encoder: Encoder[GetApiResponse] = deriveEncoder[GetApiResponse]
   }
 

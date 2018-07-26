@@ -1,18 +1,29 @@
 package forex.domain
 
 import cats.Show
+import cats.syntax.either._
 import io.circe._
 
 sealed trait Currency
+
 object Currency {
+
   final case object AUD extends Currency
+
   final case object CAD extends Currency
+
   final case object CHF extends Currency
+
   final case object EUR extends Currency
+
   final case object GBP extends Currency
+
   final case object NZD extends Currency
+
   final case object JPY extends Currency
+
   final case object SGD extends Currency
+
   final case object USD extends Currency
 
   implicit val show: Show[Currency] = Show.show {
@@ -40,6 +51,13 @@ object Currency {
   }
 
   implicit val encoder: Encoder[Currency] =
-    Encoder.instance[Currency] { show.show _ andThen Json.fromString }
+    Encoder.instance[Currency] {
+      show.show _ andThen Json.fromString
+    }
 
+  implicit val decoder: Decoder[Currency] =
+    Decoder.decodeString.emap[Currency] { str ⇒
+      Either.catchNonFatal(Currency.fromString(str))
+        .leftMap(t ⇒ t.getMessage)
+    }
 }

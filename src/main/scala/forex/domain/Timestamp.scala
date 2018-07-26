@@ -12,6 +12,8 @@ object Timestamp {
   def now: Timestamp =
     Timestamp(OffsetDateTime.now)
 
+  implicit val decoder: Decoder[Timestamp] =
+    deriveUnwrappedDecoder[Timestamp]
   implicit val encoder: Encoder[Timestamp] =
     deriveUnwrappedEncoder[Timestamp]
 }
