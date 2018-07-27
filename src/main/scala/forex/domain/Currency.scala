@@ -2,7 +2,6 @@ package forex.domain
 
 import cats.Show
 import cats.syntax.either._
-import forex.domain.Currency.{CAD, CHF, EUR, GBP, JPY, NZD, SGD, USD}
 import io.circe._
 
 sealed trait Currency

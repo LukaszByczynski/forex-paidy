@@ -1,11 +1,13 @@
 package forex.services.oneforge
-import forex.config.ForexProxyConfig
+import forex.config.{ApplicationConfig, ForexProxyConfig}
 import forex.domain.OneForge.Quote
 import forex.domain.Rate
+import org.zalando.grafter.macros.readerOf
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ForexCachedProxy(config: ForexProxyConfig, client: Client) {
+@readerOf[ApplicationConfig]
+case class ForexCachedProxy(config: ForexProxyConfig, client: Client) {
   private var quotes: Rate.Pair Map Rate = Map()
 
   private val task = {

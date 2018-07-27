@@ -9,6 +9,7 @@ case class ApplicationConfig(
     akka: AkkaConfig,
     api: ApiConfig,
     oneForge: OneForgeConfig,
+    forexProxy: ForexProxyConfig,
     executors: ExecutorsConfig
 )
 
@@ -27,7 +28,7 @@ case class ExecutorsConfig(
 )
 
 case class OneForgeConfig(
-    key: String,
+    apiKey: String,
     baseUrl: String
 )
 

@@ -1,20 +1,23 @@
 package forex.services.oneforge
 
-import java.time.{Instant, LocalTime, OffsetDateTime, ZoneId}
+import java.time.{ Instant, OffsetDateTime, ZoneId }
 
-import forex.config.OneForgeConfig
+import forex.config.{ ApplicationConfig, OneForgeConfig }
 import forex.domain.OneForge.Quote
-import forex.domain.{Currency, Price, Rate, Timestamp}
 import forex.domain.Rate.Pair.allPairs
+import forex.domain.{ Currency, Price, Rate, Timestamp }
 import fr.hmil.roshttp.HttpRequest
-import monix.execution.Scheduler.Implicits.global
-
 import io.circe.parser._
+import monix.execution.Scheduler.Implicits.global
+import org.zalando.grafter.macros.readerOf
 
 import scala.concurrent.Future
 
-class Client(config: OneForgeConfig) {
-  import config.{ baseUrl, key ⇒ apiKey }
+@readerOf[ApplicationConfig]
+case class Client(
+    config: OneForgeConfig
+) {
+  import config.{ baseUrl, apiKey ⇒ apiKey }
 
   val allAsRequestStr: String =
     allPairs
@@ -28,12 +31,11 @@ class Client(config: OneForgeConfig) {
       .send()
       .map(res ⇒ {
         println("Success with body:")
-        println(res.body)
         decode[List[Quote]](res.body).right.get // FIXME
       })
 
   def getAll: Future[List[(Rate.Pair, Rate)]] =
-    rawGetAll.map(_.map(el => {
+    rawGetAll.map(_.map(el ⇒ {
       val pair = Rate.Pair(
         Currency.fromString(el.symbol.take(3)),
         Currency.fromString(el.symbol.drop(3))
@@ -43,6 +45,6 @@ class Client(config: OneForgeConfig) {
         Price(el.price),
         Timestamp(OffsetDateTime.ofInstant(Instant.ofEpochSecond(el.timestamp), ZoneId.of("UTC"))) // brr
       )
-      pair -> rate
+      pair → rate
     }))
 }
