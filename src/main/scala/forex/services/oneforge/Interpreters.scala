@@ -8,6 +8,8 @@ import org.atnos.eff._
 import org.atnos.eff.all._
 import org.atnos.eff.addon.monix.task._
 
+import scala.concurrent.Future
+
 object Interpreters {
   def dummy[R](
       implicit

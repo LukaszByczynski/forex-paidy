@@ -9,9 +9,9 @@ import forex.main.{Processes, Runners}
 import org.scalatest.{Matchers, WordSpec}
 
 
-class DummyTest extends WordSpec with Matchers with ScalatestRouteTest {
+class ProcessesSpec extends WordSpec with Matchers with ScalatestRouteTest {
 
-  "The service" should {
+  "The configured service" should {
 
     "return Rate with correct syntax" in {
 

@@ -2,6 +2,7 @@ package forex.domain
 
 import cats.Show
 import cats.syntax.either._
+import forex.domain.Currency.{CAD, CHF, EUR, GBP, JPY, NZD, SGD, USD}
 import io.circe._
 
 sealed trait Currency
@@ -25,6 +26,8 @@ object Currency {
   final case object SGD extends Currency
 
   final case object USD extends Currency
+
+  var all: Set[Currency] = Set(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
 
   implicit val show: Show[Currency] = Show.show {
     case AUD ⇒ "AUD"

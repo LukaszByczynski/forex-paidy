@@ -12,4 +12,4 @@ Data is valid for 5 minutes. with so small requests per sec. there is not much d
 Plan:
 1. fire Rate request with dummy implementation ~write first test
 2. -||- with direct proxing to 1forge
-3. change the rates source to separate entity with cycling requests to 1forge  
+3. change the rates source to separate entity with cycled requests to 1forge  

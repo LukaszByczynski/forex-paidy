@@ -8,6 +8,7 @@ import scala.concurrent.duration.FiniteDuration
 case class ApplicationConfig(
     akka: AkkaConfig,
     api: ApiConfig,
+    oneForge: OneForgeConfig,
     executors: ExecutorsConfig
 )
 
@@ -23,4 +24,13 @@ case class ApiConfig(
 
 case class ExecutorsConfig(
     default: String
+)
+
+case class OneForgeConfig(
+    key: String,
+    baseUrl: String
+)
+
+case class ForexProxy(
+    ttl: FiniteDuration
 )
