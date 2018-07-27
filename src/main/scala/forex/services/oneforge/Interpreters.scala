@@ -1,15 +1,9 @@
 package forex.services.oneforge
 
-import java.time.OffsetDateTime
-
 import forex.domain._
 import monix.eval.Task
 import org.atnos.eff._
-import org.atnos.eff.all._
 import org.atnos.eff.addon.monix.task._
-import org.atnos.eff.memo._memo
-
-import scala.concurrent.Future
 
 object Interpreters {
   def dummy[R](

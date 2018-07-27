@@ -1,6 +1,7 @@
 package forex.services.oneforge
 import forex.config.OneForgeConfig
-import forex.domain.{Currency, Rate}
+import forex.domain.Rate
+import forex.interfaces.api.rates.Converters
 import org.scalatest.AsyncWordSpec
 
 class ClientSpec extends AsyncWordSpec {
@@ -9,17 +10,16 @@ class ClientSpec extends AsyncWordSpec {
 
     "return Rate with correct syntax" in {
 
-      val client = new Client(
+      val client = OneForgeClientJS(
         OneForgeConfig(
           "4Zc8xsXNAU3N8eO1sHF83wkQO00buyKL",
           "https://forex.1forge.com/1.0.3"
         )
       )
 
-      val from = Currency.fromString("EUR")
-      val to = Currency.fromString("JPY")
+      import Probe.{from, to}
 
-      client.getAll
+      client.getAll.map(res => Converters.toRates( res.right.get))
         .map( res => {
           val given = res.find(_._1 == Rate.Pair(from, to)).get._1
           assert(given.from == from)
