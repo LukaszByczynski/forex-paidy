@@ -19,10 +19,9 @@ class ClientSpec extends AsyncWordSpec {
       val from = Currency.fromString("EUR")
       val to = Currency.fromString("JPY")
 
-      client.doGet(new Rate.Pair(from, to))
+      client.getAll
         .map( res => {
-          assert(res.isRight)
-          val given = res.right.get.pair
+          val given = res.find(_._1 == Rate.Pair(from, to)).get._1
           assert(given.from == from)
           assert(given.to == to)
         })

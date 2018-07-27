@@ -31,6 +31,6 @@ case class OneForgeConfig(
     baseUrl: String
 )
 
-case class ForexProxy(
+case class ForexProxyConfig(
     ttl: FiniteDuration
 )
