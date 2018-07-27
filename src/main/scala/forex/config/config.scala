@@ -28,7 +28,7 @@ case class ExecutorsConfig(
 )
 
 case class OneForgeConfig(
-    apiKey: String,
+    apiKey: String, // FIXME for security could require it from env parameter
     baseUrl: String
 )
 

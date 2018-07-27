@@ -4,7 +4,7 @@ import forex.domain._
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 
-object Protocol {
+object Protocol { // why as object and not just a package?
 
   final case class GetApiRequest(
       from: Currency,

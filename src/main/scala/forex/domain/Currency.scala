@@ -50,6 +50,8 @@ object Currency {
     case "JPY" | "jpy" ⇒ JPY
     case "SGD" | "sgd" ⇒ SGD
     case "USD" | "usd" ⇒ USD
+    case _             ⇒ throw new IllegalArgumentException(s"Unknown currency code : $s")
+
   }
 
   implicit val encoder: Encoder[Currency] =

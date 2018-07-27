@@ -1,5 +1,6 @@
 package forex.services.oneforge
 
+import com.typesafe.scalalogging.LazyLogging
 import forex.config.{ApplicationConfig, OneForgeConfig}
 import forex.domain.OneForge.Quote
 import forex.domain.Rate.Pair.allPairs
@@ -24,9 +25,9 @@ trait OneForgeClient {
 }
 
 @readerOf[ApplicationConfig]
-case class OneForgeClientJS(
+case class OneForgeClientJS( // TODO could use akka HTTP which was already in dependencies
     config: OneForgeConfig
-) extends OneForgeClient {
+) extends OneForgeClient with LazyLogging {
   import config.{apiKey, baseUrl}
 
   private def request(pairs: String) = HttpRequest(s"$baseUrl/quotes?pairs=$pairs&api_key=$apiKey")
@@ -35,7 +36,7 @@ case class OneForgeClientJS(
     request(allAsRequestStr)
       .send()
       .map(res ⇒ {
-        println("1Forge client fired")
+        logger.debug("1Forge client fired")
         decode[List[Quote]](res.body)
       })
 }

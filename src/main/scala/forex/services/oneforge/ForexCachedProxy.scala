@@ -17,6 +17,7 @@ case class ForexCachedProxy(
     with Stop
     with LazyLogging {
 
+  // FIXME case: poor connection to OneForge or bad responses, how it will be communicated?
   def rate(pair: Rate.Pair): Rate = quotes(pair)
 
   private var quotes: Rate.Pair Map Rate = Map()
@@ -36,17 +37,15 @@ case class ForexCachedProxy(
         if (result.nonEmpty) {
           quotes = Converters.toRates(result).toMap
           logger.info(
-            "Synchronizing finished. updated pair example: " + quotes(Probe.pair)
+            "Synchronizing finished. Updated pair example: " + quotes(Probe.pair)
           )
-        } else logger.error("Empty results detected")
+        } else logger.error("Synchronizing finished. Empty results detected")
       case Left(value) ⇒
         logger.error(value.getMessage)
     }
 
   }
   def stopProxy(): Unit = task.cancel()
-
-  // FIXME case: poor connection to OneForge or bad responses, how it will be communicated?
 
   private val className = this.getClass.getSimpleName
 
