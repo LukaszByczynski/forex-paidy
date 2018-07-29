@@ -33,5 +33,8 @@ case class OneForgeConfig(
 )
 
 case class ForexProxyConfig(
-    ttl: FiniteDuration
-)
+    ttl: FiniteDuration,
+    limit: FiniteDuration
+) {
+  require(limit.compare(ttl) > 0, s"ttl/limit: $ttl/$limit")
+}

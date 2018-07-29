@@ -2,8 +2,10 @@ package forex.services.oneforge
 import cats.Eval
 import com.typesafe.scalalogging.LazyLogging
 import forex.config.{ApplicationConfig, ForexProxyConfig}
-import forex.domain.{Currency, Rate}
-import forex.interfaces.api.rates.Converters
+import forex.domain.{Currency, Rate, Timestamp}
+import forex.interfaces.api.rates.Converters.{milisToOffestDateTIme, toRates}
+import forex.processes.rates.converters
+import forex.services.oneforge.Error.RateTooOldError
 import org.zalando.grafter._
 import org.zalando.grafter.macros.readerOf
 
@@ -18,8 +20,16 @@ case class ForexCachedProxy(
     with Stop
     with LazyLogging {
 
-  // FIXME case: poor connection to OneForge or bad responses, how it will be communicated?
-  def rate(pair: Rate.Pair): Rate = quotes(pair)
+  def rate(pair: Rate.Pair): Error Either Rate = {
+    val candidate = quotes(pair)
+    if(Timestamp.now.value.plusSeconds(config.limit.toSeconds)
+      .isAfter(
+        candidate.timestamp.value)
+    ) Right(candidate)
+    else {
+      Left(RateTooOldError(candidate))
+    }
+  }
 
   private var quotes: Rate.Pair Map Rate = Map()
 
@@ -37,7 +47,7 @@ case class ForexCachedProxy(
       case Success(value) => value match {
         case Right(result) ⇒
           if (result.nonEmpty) {
-            quotes = Converters.toRates(result).toMap
+            quotes = toRates(result).toMap
             logger.info(
               "Synchronizing finished. Updated pair example: " + quotes(Probe.pair)
             )

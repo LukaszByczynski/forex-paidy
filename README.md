@@ -39,9 +39,9 @@ TODO
 ```
 
 # Could do
-- more tests,
+- reduce tech debt in tests, more Unit testing instead of Integration testing  
 - cover more endpoints from 1Forge,
 - extend supported currencies, need to check max number of pairs in 1Forge Quote endpoint
 - use some more functional HTTP Client, Future is faux pa(eg. sttp or/and Akka HTTP)
-- cover more corner cases , ex. now in case of 1Forge/network problems silently the outdated Rates are returned.
 - DevOps CI, deployment etc.
+- make 1Forge key config more secure,

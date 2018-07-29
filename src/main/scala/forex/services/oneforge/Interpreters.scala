@@ -42,5 +42,5 @@ private[oneforge] final class Live[R](
   ): Eff[R, Error Either Rate] =
     for {
       result ← fromTask(Task.now(forexProxy.rate(pair)))
-    } yield Right(result)
+    } yield result
 }

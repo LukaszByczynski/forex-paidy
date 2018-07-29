@@ -1,10 +1,10 @@
 package forex.services.oneforge
 import forex.config.OneForgeConfig
-import forex.domain.Rate
+import forex.domain.{Rate, Timestamp}
 import forex.interfaces.api.rates.Converters
 import org.scalatest.AsyncWordSpec
 
-class ClientSpec extends AsyncWordSpec {
+class OneForgeClientSpec extends AsyncWordSpec {
 
   "The 1Forge client" should {
 
@@ -21,9 +21,11 @@ class ClientSpec extends AsyncWordSpec {
 
       client.getAll.map(res => Converters.toRates( res.right.get))
         .map( res => {
-          val given = res.find(_._1 == Rate.Pair(from, to)).get._1
-          assert(given.from == from)
-          assert(given.to == to)
+          val given = res.find(_._1 == Rate.Pair(from, to)).get
+          val pair = given._1
+          assert(given._2.timestamp.value.getDayOfYear == Timestamp.now.value.getDayOfYear)
+          assert(pair.from == from)
+          assert(pair.to == to)
         })
 
     }

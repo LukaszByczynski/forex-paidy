@@ -33,8 +33,14 @@ object Converters {
       val rate = Rate(
         pair,
         Price(el.price),
-        Timestamp(OffsetDateTime.ofInstant(Instant.ofEpochSecond(el.timestamp), ZoneId.of("UTC"))) // brr
+        milisToOffestDateTIme(el) // brr
       )
       pair → rate
     })
+
+  def milisToOffestDateTIme(el: Quote): Timestamp = {
+    Timestamp(OffsetDateTime.ofInstant(
+      Instant.ofEpochMilli(el.timestamp*1000), ZoneId.of("UTC")
+    ))
+  }
 }
