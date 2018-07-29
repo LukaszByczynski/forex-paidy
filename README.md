@@ -1,9 +1,9 @@
 Recruitment task for Paidy described in Forex.md
 
-# Thoughts 
-We got 9 currencies. Count possible pairs: !9/!7 => 9*8=72
+# Initial thoughts 
+We got 9 currencies. Count possible pairs: !9/!7 => 9*8=72. Order matters so 144.
 
-10.000 requests per day = 6.9(4) per minute, once per 8.643042351 seconds
+10.000 proxy requests per day = 6.9(4) per minute, once per 8.643042351 seconds
 
 3rd party free tier limitation: 1,000 requests per day => once per 1,44 minutes
 
@@ -41,7 +41,7 @@ TODO
 # Could do
 - reduce tech debt in tests, more Unit testing instead of Integration testing  
 - cover more endpoints from 1Forge,
-- extend supported currencies, need to check max number of pairs in 1Forge Quote endpoint
+- extend supported currencies list. ~needs to check the max number of pairs in 1Forge Quote endpoint
 - use some more functional HTTP Client, Future is faux pa(eg. sttp or/and Akka HTTP)
 - DevOps CI, deployment etc.
 - make 1Forge key config more secure,
