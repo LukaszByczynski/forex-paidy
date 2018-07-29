@@ -8,6 +8,7 @@ import org.zalando.grafter._
 import org.zalando.grafter.macros.readerOf
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 
 @readerOf[ApplicationConfig]
 case class ForexCachedProxy(
@@ -32,16 +33,21 @@ case class ForexCachedProxy(
   }
   private def synchronizeWithOneForge(): Unit = {
     logger.info("Synchronizing with 1forge started")
-    client.getAll.foreach {
-      case Right(result) ⇒
-        if (result.nonEmpty) {
-          quotes = Converters.toRates(result).toMap
-          logger.info(
-            "Synchronizing finished. Updated pair example: " + quotes(Probe.pair)
-          )
-        } else logger.error("Synchronizing finished. Empty results detected")
-      case Left(value) ⇒
-        logger.error(value.getMessage)
+    client.getAll.onComplete {
+      case Success(value) => value match {
+        case Right(result) ⇒
+          if (result.nonEmpty) {
+            quotes = Converters.toRates(result).toMap
+            logger.info(
+              "Synchronizing finished. Updated pair example: " + quotes(Probe.pair)
+            )
+          } else logger.error("Synchronizing finished. Empty results detected")
+
+        case Left(err) ⇒
+          logger.error(err.getMessage)
+      }
+      case Failure(e) =>
+        logger.error("Synchronizing failed with Future exception: " + e.getMessage)
     }
 
   }
