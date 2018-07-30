@@ -1,4 +1,4 @@
-Recruitment task for Paidy described in Forex.md
+Recruitment task for Paidy described in [Forex.md](Forex.md)
 
 # Initial thoughts 
 We got 9 currencies. Count possible pairs: !9/!7 => 9*8=72. Order matters so 144.
@@ -24,7 +24,7 @@ ApiKey, baseUrl and sync period are configurable. Smallest TimeUnit is a Second.
 
 Git not handled as for production development. (no feature branches, direct pushes to master, no issues tracking etc.)
 
-#Endpoints
+# Endpoints
 
 Rate for pair Euro and Yen:
 ```bash
