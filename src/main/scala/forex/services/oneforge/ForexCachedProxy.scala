@@ -3,8 +3,7 @@ import cats.Eval
 import com.typesafe.scalalogging.LazyLogging
 import forex.config.{ApplicationConfig, ForexProxyConfig}
 import forex.domain.{Currency, Rate, Timestamp}
-import forex.interfaces.api.rates.Converters.{milisToOffestDateTIme, toRates}
-import forex.processes.rates.converters
+import forex.interfaces.api.rates.Converters.toRates
 import forex.services.oneforge.Error.RateTooOldError
 import org.zalando.grafter._
 import org.zalando.grafter.macros.readerOf
@@ -22,12 +21,15 @@ case class ForexCachedProxy(
 
   def rate(pair: Rate.Pair): Error Either Rate = {
     val candidate = quotes(pair)
-    if(Timestamp.now.value.plusSeconds(config.limit.toSeconds)
-      .isAfter(
-        candidate.timestamp.value)
-    ) Right(candidate)
-    else {
+    val now = Timestamp.now.value
+    if(candidate.timestamp.value.plusSeconds(config.limit.toSeconds)
+      .isBefore( now)
+    ) {
+      logger.warn(s"Service do not meet the time limit requirements: given: ${candidate.timestamp}; limit: ${config.limit}; now: $now")
       Left(RateTooOldError(candidate))
+    }
+    else {
+      Right(candidate)
     }
   }
 

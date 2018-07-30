@@ -36,5 +36,5 @@ case class ForexProxyConfig(
     ttl: FiniteDuration,
     limit: FiniteDuration
 ) {
-  require(limit.compare(ttl) > 0, s"ttl/limit: $ttl/$limit")
+  require(limit.compare(ttl) >= 0, s"ttl/limit: $ttl/$limit")
 }

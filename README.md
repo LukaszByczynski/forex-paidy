@@ -20,7 +20,7 @@ Data is valid for 5 minutes. with so little requests per sec. there is not much 
 Background task exists which synchronizes with 1Forge every 4 minutes.
 That gives a smallest latency for getting the rates from the proxy.
 
-ApiKey, baseUrl and sync period are configurable.
+ApiKey, baseUrl and sync period are configurable. Smallest TimeUnit is a Second.
 
 Git not handled as for production development. (no feature branches, direct pushes to master, no issues tracking etc.)
 
@@ -31,11 +31,13 @@ Rate for pair Euro and Yen:
 curl http://localhost:8888/?from=EUR&to=JPY
 ```
 
+Returned time is in zone UTC.
+
 Allowed currencies: AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD
 
 If server gots a problem with synchronizing with 1Forge you'll receive:
 ```
-TODO
+ HttpResponse(500 Internal Server Error,List(),HttpEntity.Strict(text/plain; charset=UTF-8,Proxy error.Service malfunction. Rate too old. Last known Rate: Rate(Pair(EUR,JPY),Price(1),Timestamp(2018-07-30T07:17:18Z)))
 ```
 
 # Could do

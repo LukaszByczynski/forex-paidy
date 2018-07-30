@@ -23,7 +23,8 @@ class OneForgeClientSpec extends AsyncWordSpec {
         .map( res => {
           val given = res.find(_._1 == Rate.Pair(from, to)).get
           val pair = given._1
-          assert(given._2.timestamp.value.getDayOfYear == Timestamp.now.value.getDayOfYear)
+          println(given)
+          assert(given._2.timestamp.value.getHour == Timestamp.now.value.getHour, "it may be TimeZone translation problem")
           assert(pair.from == from)
           assert(pair.to == to)
         })

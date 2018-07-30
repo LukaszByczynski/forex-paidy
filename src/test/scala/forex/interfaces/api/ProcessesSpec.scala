@@ -25,7 +25,7 @@ class ProcessesSpec extends WordSpec with Matchers with ScalatestRouteTest with 
   override def beforeAll() {
     super.beforeAll()
     proxy = ForexCachedProxy(
-      ForexProxyConfig(FiniteDuration(1, TimeUnit.MILLISECONDS), FiniteDuration(2, TimeUnit.MILLISECONDS)),
+      ForexProxyConfig(FiniteDuration(1, TimeUnit.MILLISECONDS), FiniteDuration(2, TimeUnit.SECONDS)),
       OneForgeClientStub
     )
     val ratesRoutes = rates.Routes(
@@ -33,6 +33,7 @@ class ProcessesSpec extends WordSpec with Matchers with ScalatestRouteTest with 
       Runners()
     )
     route = Routes(ratesRoutes).route
+    proxy.stopProxy() // FIXME reduce logs by logback config
   }
 
   override def afterAll(): Unit = {
