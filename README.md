@@ -40,7 +40,7 @@ Data is valid for 5 minutes. with so little requests per sec. there is not much 
 
 Limit for a URL is about 2080. In one request request may contain all pairs for about 17 Currencies (without Pair ordering about 24).
 
-For much more currencies... I would need to change the architeture of this solution :(. Is it possible to retain so low letancy for all currencies supported by 1Forge? Perhaps fast letancy for common pairs and normal cache for exotic currencies. Checked: 1Forge supports about 30 currencies... too much for free tier but with multiple free keys or a paid account it's possible to retain low letancy for all Currencies (3-4 instead of 1 periodic requests).
+For much more currencies... I would need to change the architeture of this solution? Is it possible to retain so low letancy for all currencies supported by 1Forge? Perhaps fast letancy for common pairs and normal cache for exotic currencies. Checked: 1Forge supports about 30 currencies... too much for free tier but with multiple free keys or a paid account it's possible to retain low letancy for all Currencies (3-4 instead of 1 periodic requests) :).
 
 ## Plan:
 1. fire Rate request with dummy implementation ~write first test
