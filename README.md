@@ -1,6 +1,6 @@
 Recruitment task for Paidy described in [Forex.md](Forex.md)
 
-# Using
+# Usage
 To run the tests:
 ```
 sbt test
